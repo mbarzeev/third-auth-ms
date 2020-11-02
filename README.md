@@ -1,7 +1,7 @@
 # third-auth-ms
 A micro-service for delegating authentication to 3rd party vendors.  
 
-We know today that creating your own authentication mechanism involves a lot of work and exposes you system to attacks due to breaches you are not aware of or did not handle correctly.  
+We know today that creating your own authentication mechanism involves a lot of work and exposes your system to attacks due to breaches you are not aware of or did not handle correctly.  
 On the other hand, there are 3rd-party vendors which have very solid, tested and trust-worthy authentication mechanisms you can use to you own application benefit, such as Google, Github, etc.
 
 This micro-service aims to help you integrate with those 3rd-party authenticators.
