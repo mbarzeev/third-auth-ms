@@ -1,7 +1,7 @@
 # third-auth-ms
 A micro-service for delegating authentication to 3rd party vendors.  
 
-We know today that creating your own authentication mechanism involves a lot of work and exposes your system to attacks due to breaches you are not aware of or did not handle correctly.  
+Creating your own authentication mechanism involves a lot of work and exposes your system to attacks due to breaches you are not aware of or did not handle correctly.  
 On the other hand, there are 3rd-party vendors which have very solid, tested and trust-worthy authentication mechanisms you can use to you own application benefit, such as Google, Github, etc.
 
 This micro-service aims to help you integrate with those 3rd-party authenticators.
@@ -10,10 +10,10 @@ This micro-service aims to help you integrate with those 3rd-party authenticator
 Once set up and triggered this micro-service initiates an authentication flow which validates the user against the 3rd-party authentication vendor, and if valid, returns the user's approved details to share with your application.
 
 ## How does it do that?
-Every respectable authentication vendor has means to preform authentication. This micro-service simply consolidates the different vendors and eposes an abstraction API to work with them. 
+Every respectable authentication vendor has means to preform authentication. This micro-service simply consolidates the different vendors and exposes an abstraction API to work with them. 
 
-This micro-service is intended to work with other micro-services which participate in your application.
-Common flow of integrating the third-auth-ms in your system can be:
+This micro-service is intended to work with other micro-services which construct your application.
+Common flow of integrating the third-auth-ms in your system might be:
 ![Common flow of integrating the third-auth-ms in your system](./assets/sequence-diagram-1.png)
 
 ## Currently supported vendors
