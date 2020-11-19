@@ -1,3 +1,7 @@
-node_modules
-npm-debug.log
-assets
+*
+
+!src
+!node_modules
+!https
+!package.json
+!package-lock.json

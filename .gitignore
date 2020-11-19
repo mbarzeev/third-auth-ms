@@ -3,3 +3,4 @@ node_modules
 https
 .vscode
 coverage
+docker-compose.yml

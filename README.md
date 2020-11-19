@@ -22,7 +22,7 @@ Common flow of integrating the third-auth-ms in your system might be:
 * More to come... :)
 
 ## Usage
-Create a `.env` file where you will put the following details.  
+If you're interested in creating a docker container for this micro-service, please see the relevant Docker sections below. For the sake of demos create a `.env` file where you will put the following details.  
 **Note** that vendor related variables are needed according to the vendor you wish to use.
 | KEY                 | Context  | Description   |  
 |-                      |- |:-             |
@@ -51,3 +51,36 @@ Launch the server by running `npm start` and navigate to `https://localhost:<por
 You will see a GitHub sign-in button
 The GitHub demo page performs authentication and then redirects back to demo page since this is the **callback URI**, and only then it validates the auth token with this micro-service to  display the result on the demo page.
 The developer needs to define the **callback URI** on GitHub applcation settings for this demo to work.
+
+## Docker
+### Building the Docker image
+If you would like to build the docker image, simply run `npm run build-docker-image`
+Now when you run `docker images` to inspect your installed images, you will see the third-auth-ms image in the list.
+Note: the `.env` file is not included in the image.
+
+### Creating a docker container using docker-compose
+If you would like to create a Docker container derived fom the image you've just made, the easiest way to go about it is to create a `docker-compose.yml` file and run it using `docker-compose up`, just for the sake of defining the environment variable in a maintainable manner. Below is an example for such file which define the different 
+```yml
+version: '3.3'
+
+services:
+  third-auth-ms:
+    image: third-auth-ms
+    
+    environment: 
+      PORT: 1970
+      HOST: 0.0.0.0
+      CERT_PASSPHRASE: 'your-cert-passphrase'
+      KEY_PEM_FILE_PATH: 'path-to-key.pem'
+      CERT_PEM_FILE_PATH: 'path-to-cert.pem'
+      COOKIE_SECRET: 'your-cookie-secret'
+      GITHUB_CLIENT_ID: 'your-github-client-id'
+      GITHUB_CLIENT_SECRET: 'your-github-client-secret'
+      GOOGLE_CLIENT_ID: 'your-google-client-id'
+      GOOGLE_CLIENT_SECRET: 'your-google-client-secret'
+
+    ports:
+      - 8080:1970
+
+```
+*Note: Lunching the container this way means the demos will not work unless you set the ports mapping to be the same, e.g. `1970:1970`, but for the demos it is better to just run the `npm start` with the relevant `.env` file.*
