@@ -6,28 +6,39 @@ const KEY_PEM_FILE_PATH = process.env.KEY_PEM_FILE_PATH;
 const CERT_PEM_FILE_PATH = process.env.CERT_PEM_FILE_PATH;
 
 const fs = require('fs');
+const cors = require('cors');
 
-const fastify = require('fastify')({
-    logger: true,
-    http2: true,
-    https: {
-        // eslint-disable-next-line security/detect-non-literal-fs-filename
-        key: fs.readFileSync(KEY_PEM_FILE_PATH),
-        // eslint-disable-next-line security/detect-non-literal-fs-filename
-        cert: fs.readFileSync(CERT_PEM_FILE_PATH),
-        passphrase: CERT_PASSPHRASE,
-    },
-});
+async function build() {
+    const fastify = require('fastify')({
+        logger: true,
+        http2: true,
+        https: {
+            allowHTTP1: true, // fallback support for HTTP1
+            // eslint-disable-next-line security/detect-non-literal-fs-filename
+            key: fs.readFileSync(KEY_PEM_FILE_PATH),
+            // eslint-disable-next-line security/detect-non-literal-fs-filename
+            cert: fs.readFileSync(CERT_PEM_FILE_PATH),
+            passphrase: CERT_PASSPHRASE,
+        },
+    });
 
-// Parsers
-fastify.register(require('fastify-formbody'));
+    // Parsers
+    fastify.register(require('fastify-formbody'));
 
-// Routes
-require('./google/routes.js')(fastify);
-require('./github/routes.js')(fastify);
+    // CORS support
+    await fastify.register(require('middie'));
+    fastify.use(cors);
+
+    // Routes
+    require('./google/routes.js')(fastify);
+    require('./github/routes.js')(fastify);
+
+    return fastify;
+}
 
 // Run the server!
 const start = async () => {
+    const fastify = await build();
     try {
         await fastify.listen(PORT, HOST);
         fastify.log.info(`server listening on ${fastify.server.address().port}`);
