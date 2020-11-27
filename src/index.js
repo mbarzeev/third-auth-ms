@@ -27,9 +27,10 @@ async function build() {
 
     // CORS support
     await fastify.register(require('middie'));
-    fastify.use(cors);
+    fastify.use(cors());
 
     // Routes
+    // TODO: add route to get all the client IDs available
     require('./google/routes.js')(fastify);
     require('./github/routes.js')(fastify);
 
