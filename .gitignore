@@ -4,3 +4,4 @@ https
 .vscode
 coverage
 docker-compose.yml
+.devcontainer
