@@ -23,7 +23,7 @@ module.exports = fastify => {
             const idToken = request.body.idtoken;
             const usersDetails = await getAuthPayloadByIdToken(idToken).catch(error => {
                 request.log.error(error);
-                reply.send(new Error('Could not get usre details by ID token'));
+                reply.send(new Error('Could not get user details by ID token'));
             });
             if (usersDetails) {
                 reply.type('application/json');
