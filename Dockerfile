@@ -1,13 +1,19 @@
-FROM node:14.4.0-alpine
+FROM node:lts-alpine
+
+RUN apk add dumb-init
+
+ENV NODE_ENV production
 
 WORKDIR /usr/src/app
 
-COPY package*.json ./
+COPY --chown=node:node package*.json ./
 
-RUN npm ci
+RUN npm ci --only=production
 
 COPY . .
 
 EXPOSE ${PORT}
 
-CMD ["node", "./src/index.js"]
+USER node
+
+CMD ["dumb-init", "node", "./src/index.js"]
