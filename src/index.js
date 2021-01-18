@@ -40,13 +40,25 @@ async function build() {
 // Run the server!
 const start = async () => {
     const fastify = await build();
+
     try {
+        process.on('SIGINT', closeGracefully);
+        process.on('SIGTERM', closeGracefully);
+
         await fastify.listen(PORT, HOST);
         fastify.log.info(`server listening on ${fastify.server.address().port}`);
     } catch (err) {
         fastify.log.error(err);
-        process.exitCode1 = 1;
+        process.exitCode = 1;
         throw err;
+    }
+
+    async function closeGracefully(signal) {
+        console.log(`Received signal to terminate: ${signal}`);
+
+        await fastify.close();
+        /* eslint-disable no-process-exit */
+        process.exit();
     }
 };
 start();
